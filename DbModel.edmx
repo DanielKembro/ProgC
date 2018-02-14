@@ -1,0 +1,262 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="dbFindPersonModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Building">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="Institution">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="255" />
+          <Property Name="BId" Type="int" />
+        </EntityType>
+        <EntityType Name="Person">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="255" />
+          <Property Name="Telefon" Type="varchar" MaxLength="255" />
+          <Property Name="Mail" Type="varchar" MaxLength="255" />
+          <Property Name="Work" Type="varchar" MaxLength="255" />
+          <Property Name="Nr" Type="int" />
+        </EntityType>
+        <EntityType Name="Room">
+          <Key>
+            <PropertyRef Name="Nr" />
+          </Key>
+          <Property Name="Nr" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="255" />
+          <Property Name="IId" Type="int" />
+        </EntityType>
+        <Association Name="FK__Institution__BId__1273C1CD">
+          <End Role="Building" Type="Self.Building" Multiplicity="0..1" />
+          <End Role="Institution" Type="Self.Institution" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Building">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Institution">
+              <PropertyRef Name="BId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__person__Nr__182C9B23">
+          <End Role="Room" Type="Self.Room" Multiplicity="0..1" />
+          <End Role="Person" Type="Self.Person" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Room">
+              <PropertyRef Name="Nr" />
+            </Principal>
+            <Dependent Role="Person">
+              <PropertyRef Name="Nr" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Room__IId__15502E78">
+          <End Role="Institution" Type="Self.Institution" Multiplicity="0..1" />
+          <End Role="Room" Type="Self.Room" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Institution">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Room">
+              <PropertyRef Name="IId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="dbFindPersonModelStoreContainer">
+          <EntitySet Name="Building" EntityType="Self.Building" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Institution" EntityType="Self.Institution" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Person" EntityType="Self.Person" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Room" EntityType="Self.Room" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Institution__BId__1273C1CD" Association="Self.FK__Institution__BId__1273C1CD">
+            <End Role="Building" EntitySet="Building" />
+            <End Role="Institution" EntitySet="Institution" />
+          </AssociationSet>
+          <AssociationSet Name="FK__person__Nr__182C9B23" Association="Self.FK__person__Nr__182C9B23">
+            <End Role="Room" EntitySet="Room" />
+            <End Role="Person" EntitySet="Person" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Room__IId__15502E78" Association="Self.FK__Room__IId__15502E78">
+            <End Role="Institution" EntitySet="Institution" />
+            <End Role="Room" EntitySet="Room" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="dbFindPersonModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Building">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Institutions" Relationship="Self.FK__Institution__BId__1273C1CD" FromRole="Building" ToRole="Institution" />
+        </EntityType>
+        <EntityType Name="Institution">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="BId" Type="Int32" />
+          <NavigationProperty Name="Building" Relationship="Self.FK__Institution__BId__1273C1CD" FromRole="Institution" ToRole="Building" />
+          <NavigationProperty Name="Rooms" Relationship="Self.FK__Room__IId__15502E78" FromRole="Institution" ToRole="Room" />
+        </EntityType>
+        <EntityType Name="Person">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Telefon" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Mail" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Work" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Nr" Type="Int32" />
+          <NavigationProperty Name="Room" Relationship="Self.FK__person__Nr__182C9B23" FromRole="Person" ToRole="Room" />
+        </EntityType>
+        <EntityType Name="Room">
+          <Key>
+            <PropertyRef Name="Nr" />
+          </Key>
+          <Property Name="Nr" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="IId" Type="Int32" />
+          <NavigationProperty Name="Institution" Relationship="Self.FK__Room__IId__15502E78" FromRole="Room" ToRole="Institution" />
+          <NavigationProperty Name="People" Relationship="Self.FK__person__Nr__182C9B23" FromRole="Room" ToRole="Person" />
+        </EntityType>
+        <Association Name="FK__Institution__BId__1273C1CD">
+          <End Role="Building" Type="Self.Building" Multiplicity="0..1" />
+          <End Role="Institution" Type="Self.Institution" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Building">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Institution">
+              <PropertyRef Name="BId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Room__IId__15502E78">
+          <End Role="Institution" Type="Self.Institution" Multiplicity="0..1" />
+          <End Role="Room" Type="Self.Room" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Institution">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Room">
+              <PropertyRef Name="IId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__person__Nr__182C9B23">
+          <End Role="Room" Type="Self.Room" Multiplicity="0..1" />
+          <End Role="Person" Type="Self.Person" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Room">
+              <PropertyRef Name="Nr" />
+            </Principal>
+            <Dependent Role="Person">
+              <PropertyRef Name="Nr" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="dbFindPersonEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Buildings" EntityType="Self.Building" />
+          <EntitySet Name="Institutions" EntityType="Self.Institution" />
+          <EntitySet Name="People" EntityType="Self.Person" />
+          <EntitySet Name="Rooms" EntityType="Self.Room" />
+          <AssociationSet Name="FK__Institution__BId__1273C1CD" Association="Self.FK__Institution__BId__1273C1CD">
+            <End Role="Building" EntitySet="Buildings" />
+            <End Role="Institution" EntitySet="Institutions" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Room__IId__15502E78" Association="Self.FK__Room__IId__15502E78">
+            <End Role="Institution" EntitySet="Institutions" />
+            <End Role="Room" EntitySet="Rooms" />
+          </AssociationSet>
+          <AssociationSet Name="FK__person__Nr__182C9B23" Association="Self.FK__person__Nr__182C9B23">
+            <End Role="Room" EntitySet="Rooms" />
+            <End Role="Person" EntitySet="People" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="dbFindPersonModelStoreContainer" CdmEntityContainer="dbFindPersonEntities">
+          <EntitySetMapping Name="Buildings">
+            <EntityTypeMapping TypeName="dbFindPersonModel.Building">
+              <MappingFragment StoreEntitySet="Building">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Institutions">
+            <EntityTypeMapping TypeName="dbFindPersonModel.Institution">
+              <MappingFragment StoreEntitySet="Institution">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="BId" ColumnName="BId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="People">
+            <EntityTypeMapping TypeName="dbFindPersonModel.Person">
+              <MappingFragment StoreEntitySet="Person">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Telefon" ColumnName="Telefon" />
+                <ScalarProperty Name="Mail" ColumnName="Mail" />
+                <ScalarProperty Name="Work" ColumnName="Work" />
+                <ScalarProperty Name="Nr" ColumnName="Nr" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Rooms">
+            <EntityTypeMapping TypeName="dbFindPersonModel.Room">
+              <MappingFragment StoreEntitySet="Room">
+                <ScalarProperty Name="Nr" ColumnName="Nr" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="IId" ColumnName="IId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
